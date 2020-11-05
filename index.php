@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php session_start(); ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,27 +70,30 @@
 
     <?php
 
-    $random1 = rand(0, 10);
-    $random2 = rand(0, 10);
-    $oper = '+-*';
-    $random3 = $oper[rand(0, strlen($oper) - 1)];
+    if ($_POST['random1'] and $_POST['random2'] and $_POST['random3']) {
+        $random1 = $_POST['random1'];
+        $random2 = $_POST['random2'];
+        $random3 = $_POST['random3'];
+    } else {
+        $random1 = rand(0, 10);
+        $random2 = rand(0, 10);
+        $oper = '+-*';
+        $random3 = $oper[rand(0, strlen($oper) - 1)];
+    }
 
-    if($random3 = "-"){
+    if ($random3 == "-") {
         $res = ($random1 - $random2);
-    }
-    if($random3 = "+"){
+    } elseif ($random3 == "+") {
         $res = ($random1 + $random2);
-    }
-    if($random3 = "*"){
+    } elseif ($random3 == "*") {
         $res = ($random1 * $random2);
     }
-
 
     if (isset($_POST['snd-res'])) {
 
         $myres = $_POST['myres'];
 
-        if ($myres = $res) {
+        if ($myres == $res) {
             echo ('Bravo!');
         } else {
             echo ('Essaye à nouveau');
@@ -99,7 +103,10 @@
     ?>
 
     <form method="POST">
-        <label name="oper"><?php echo $random1 ?><?php echo $random3 ?><?php echo $random2 ?></label>
+        <label name="oper"><?php echo $random1 ?><?php echo $random3 ?><?php echo $random2 ?> <?php echo $res ?></label>
+        <input type="hidden" name="random1" value="<?php echo $random1 ?>">
+        <input type="hidden" name="random2" value="<?php echo $random2 ?>">
+        <input type="hidden" name="random3" value="<?php echo $random3 ?>">
         <input type="text" placeholder="Ecris ici le résultat!!" name="myres">
         <input type="submit" name="snd-res" value="C'est ça!">
     </form>
@@ -111,16 +118,18 @@
 
     <?php
 
-    $notes = ([rand(0, 20),
-               rand(0, 20),
-               rand(0, 20),
-               rand(0, 20),
-               rand(0, 20),
-               rand(0, 20),
-               rand(0, 20),
-               rand(0, 20),
-               rand(0, 20), 
-               rand(0, 20)]);
+    $notes = ([
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20),
+        rand(0, 20)
+    ]);
 
     $somme = array_sum($notes);
 
@@ -128,33 +137,45 @@
 
     ?>
 
-<style>table,th,td,tr { border: 2px solid; text-align: center; } tbody td { width: 25px;} </style>
+    <style>
+        table,
+        th,
+        td,
+        tr {
+            border: 2px solid;
+            text-align: center;
+        }
+
+        tbody td {
+            width: 25px;
+        }
+    </style>
 
     <table>
-    <thead>
-    <tr>
-    <td colspan="10" style="text-align:center;"><b>Notes</b></td>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><?php echo $notes[0] ?></td>
-            <td><?php echo $notes[1] ?></td>
-            <td><?php echo $notes[2] ?></td>
-            <td><?php echo $notes[3] ?></td>
-            <td><?php echo $notes[4] ?></td>
-            <td><?php echo $notes[5] ?></td>
-            <td><?php echo $notes[6] ?></td>
-            <td><?php echo $notes[7] ?></td>
-            <td><?php echo $notes[8] ?></td>
-            <td><?php echo $notes[9] ?></td>
-        </tr>
-    </tbody>
-    <tfoot>
-    <tr>
-    <td colspan="10" style="text-align:center;"><b><?php echo $moyenne ?></b></td>
-    </tr>
-    </tfoot>
+        <thead>
+            <tr>
+                <td colspan="10" style="text-align:center;"><b>Notes</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><?php echo $notes[0] ?></td>
+                <td><?php echo $notes[1] ?></td>
+                <td><?php echo $notes[2] ?></td>
+                <td><?php echo $notes[3] ?></td>
+                <td><?php echo $notes[4] ?></td>
+                <td><?php echo $notes[5] ?></td>
+                <td><?php echo $notes[6] ?></td>
+                <td><?php echo $notes[7] ?></td>
+                <td><?php echo $notes[8] ?></td>
+                <td><?php echo $notes[9] ?></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10" style="text-align:center;"><b><?php echo $moyenne ?></b></td>
+            </tr>
+        </tfoot>
     </table>
 
     <hr style="margin-top: 20px; margin-bottom: 20px;">
